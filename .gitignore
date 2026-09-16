@@ -1,0 +1,10 @@
+/build/
+/.cache/
+/.idea/
+/.vscode/
+*.user
+*.swp
+*.log
+CMakeUserPresets.json
+CONTEXT.md
+.cursor/
