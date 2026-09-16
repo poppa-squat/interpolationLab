@@ -44,6 +44,7 @@ class InterpolationLabEditor final : public juce::AudioProcessorEditor {
         juce::Rectangle<int> source;
         juce::Rectangle<int> target;
         juce::Rectangle<int> mix;
+        juce::Rectangle<int> interpolatorCaption;
         juce::Rectangle<int> interpolator;
     };
 

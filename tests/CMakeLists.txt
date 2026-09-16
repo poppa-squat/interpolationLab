@@ -1,6 +1,9 @@
 add_executable(interpolation_lab_tests
+    AnalysisSettingsTests.cpp
     FadeInterpolatorTests.cpp
     InterpolatorCatalogTests.cpp
+    OptimalTransportTests.cpp
+    SpectralTransportTests.cpp
     WeightsTests.cpp)
 
 target_link_libraries(interpolation_lab_tests

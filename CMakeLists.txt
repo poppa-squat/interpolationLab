@@ -18,8 +18,12 @@ target_compile_options(interpolation_lab_warnings INTERFACE
     $<$<CXX_COMPILER_ID:MSVC>:/W4>)
 
 add_library(interpolation_lab_dsp STATIC
+    src/dsp/AnalysisSettings.cpp
+    src/dsp/Fft.cpp
     src/dsp/InterpolatorCatalog.cpp
-    src/dsp/methods/FadeInterpolator.cpp)
+    src/dsp/OptimalTransport.cpp
+    src/dsp/methods/FadeInterpolator.cpp
+    src/dsp/methods/SpectralTransportInterpolator.cpp)
 target_include_directories(interpolation_lab_dsp PUBLIC "${PROJECT_SOURCE_DIR}/src")
 target_link_libraries(interpolation_lab_dsp
     PUBLIC
