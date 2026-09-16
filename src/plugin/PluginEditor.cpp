@@ -227,6 +227,8 @@ InterpolationLabEditor::InterpolationLabEditor(InterpolationLabProcessor& proces
     addAndMakeVisible(mixSlider_);
 
     interpolatorBox_.setJustificationType(juce::Justification::centred);
+    interpolatorBox_.setTextWhenNothingSelected("Interpolator");
+    interpolatorBox_.setTooltip("Interpolation technique");
     for (int i = 0; i < InterpolatorCatalog::size(); ++i) {
         interpolatorBox_.addItem(juce::String(InterpolatorCatalog::info(i).name.data(),
                                               InterpolatorCatalog::info(i).name.size()),
@@ -236,7 +238,7 @@ InterpolationLabEditor::InterpolationLabEditor(InterpolationLabProcessor& proces
     interpolatorAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(
         processor.parameters(), ids::interpolator, interpolatorBox_);
 
-    setSize(480, 300);
+    setSize(480, 320);
     setResizable(false, false);
 }
 
@@ -266,8 +268,10 @@ void InterpolationLabEditor::paint(juce::Graphics& g) {
     g.setColour(juce::Colour(kNeon).withAlpha(0.7f));
     g.fillRect(underline);
 
+    g.setColour(juce::Colour(kNeon));
     g.setFont(captionFont());
     g.drawText("MIX", layout.mixCaption, juce::Justification::centred);
+    g.drawText("INTERPOLATOR", layout.interpolatorCaption, juce::Justification::centred);
 
     g.setColour(juce::Colour(kSilver));
     g.setFont(endpointFont());
@@ -286,7 +290,9 @@ auto InterpolationLabEditor::layoutFor(juce::Rectangle<int> bounds) const -> Lay
     auto area = bounds.reduced(22);
     layout.title = area.removeFromTop(30);
     layout.mixCaption = area.removeFromTop(18);
-    layout.interpolator = area.removeFromBottom(50).reduced(6, 8);
+    auto interpolatorRow = area.removeFromBottom(58);
+    layout.interpolatorCaption = interpolatorRow.removeFromTop(16);
+    layout.interpolator = interpolatorRow.reduced(36, 4);
     layout.source = area.removeFromLeft(78);
     layout.target = area.removeFromRight(78);
     layout.mix = area;

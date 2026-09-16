@@ -1,6 +1,7 @@
 #include "dsp/InterpolatorCatalog.h"
 
 #include "dsp/methods/FadeInterpolator.h"
+#include "dsp/methods/SpectralTransportInterpolator.h"
 
 #include <algorithm>
 #include <array>
@@ -10,8 +11,13 @@ namespace {
 
 auto makeFade() -> std::unique_ptr<Interpolator> { return std::make_unique<FadeInterpolator>(); }
 
-const std::array<InterpolatorInfo, 1> kEntries{{
+auto makeSpectralTransport() -> std::unique_ptr<Interpolator> {
+    return std::make_unique<SpectralTransportInterpolator>();
+}
+
+const std::array<InterpolatorInfo, 2> kEntries{{
     {"fade", "Fade", &makeFade},
+    {"spectral_transport", "Spectral Transport", &makeSpectralTransport},
 }};
 
 } // namespace

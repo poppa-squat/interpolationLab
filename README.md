@@ -1,6 +1,9 @@
 # Interpolation Lab
 
-A GPL-3 VST3 (and Standalone) test bed for interpolating **Source** toward **Target** with a **Mix** knob. Methods register in a catalog; the first method is **Fade**, a time-domain equal-power mix.
+A GPL-3 VST3 (and Standalone) test bed for interpolating **Source** toward **Target** with a **Mix** knob. Methods register in a catalog. The plugin UI exposes the selected method as an **Interpolator** dropdown.
+
+1. **Fade** — time-domain equal-power mix.
+2. **Spectral Transport** — Henderson and Solomon 2019 portamento from [audioTransport](https://github.com/poppa-squat/audioTransport). Pitches slide instead of merely fading.
 
 The interpolator seam takes **N sources and N weights**, not a hard-coded pair. The plugin currently wires two buses and maps Mix to `{1 - mix, mix}` so a DAW can host experiments today. More sources can be added later without changing method implementations.
 
@@ -30,5 +33,8 @@ JUCE copies the VST3 to `~/.vst3` after a successful plugin build (`COPY_PLUGIN_
 3. Interpolator = **Fade**, Mix = 0: output is this track.
 4. Mix = 1: output is the sidechain track.
 5. Mix in the middle: the sounds blend; pitches stay put.
+6. Switch Interpolator to **Spectral Transport** and repeat: Mix = 0 is still this track; Mix = 1 is still the sidechain; Mix in the middle on two steady tones slides pitch instead of fading. Plugin delay compensation may jump; that is expected.
+7. Stereo Source with a mono Target: both output channels morph toward that Target.
+8. Disconnect Target, Mix above 0: output heads toward silence.
 
 Standalone builds with the plugin. The Target bus is often silent there unless the audio device exposes extra inputs; use a DAW to experiment with two live sources.
