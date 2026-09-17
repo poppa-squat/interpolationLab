@@ -9,6 +9,23 @@ FetchContent_Declare(
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
 FetchContent_MakeAvailable(JUCE)
 
+if(INTERPOLATION_LAB_USE_TORCH)
+    if(DEFINED LIBTORCH_ROOT AND EXISTS "${LIBTORCH_ROOT}/share/cmake/Torch")
+        set(Torch_DIR "${LIBTORCH_ROOT}/share/cmake/Torch")
+    else()
+        FetchContent_Declare(
+            libtorch
+            URL https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.2.2%2Bcpu.zip
+            DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
+        FetchContent_GetProperties(libtorch)
+        if(NOT libtorch_POPULATED)
+            FetchContent_Populate(libtorch)
+        endif()
+        set(Torch_DIR "${libtorch_SOURCE_DIR}/share/cmake/Torch")
+    endif()
+    find_package(Torch REQUIRED)
+endif()
+
 if(BUILD_TESTING)
     FetchContent_Declare(
         Catch2

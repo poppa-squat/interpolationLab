@@ -9,6 +9,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+option(INTERPOLATION_LAB_USE_TORCH "Link LibTorch and load streaming RAVE TorchScript models" OFF)
+
 include(CTest)
 include("${CMAKE_SOURCE_DIR}/cmake/Dependencies.cmake")
 
@@ -23,7 +25,16 @@ add_library(interpolation_lab_dsp STATIC
     src/dsp/InterpolatorCatalog.cpp
     src/dsp/OptimalTransport.cpp
     src/dsp/methods/FadeInterpolator.cpp
+    src/dsp/methods/RaveInterpolator.cpp
     src/dsp/methods/SpectralTransportInterpolator.cpp)
+if(INTERPOLATION_LAB_USE_TORCH)
+    target_sources(interpolation_lab_dsp PRIVATE src/dsp/RaveTorchScriptBackend.cpp)
+    target_compile_definitions(interpolation_lab_dsp PUBLIC INTERPOLATION_LAB_USE_TORCH=1)
+    target_link_libraries(interpolation_lab_dsp PUBLIC ${TORCH_LIBRARIES})
+    if(TORCH_CXX_FLAGS)
+        target_compile_options(interpolation_lab_dsp PUBLIC ${TORCH_CXX_FLAGS})
+    endif()
+endif()
 target_include_directories(interpolation_lab_dsp PUBLIC "${PROJECT_SOURCE_DIR}/src")
 target_link_libraries(interpolation_lab_dsp
     PUBLIC
