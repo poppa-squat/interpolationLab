@@ -114,7 +114,8 @@ void RaveInterpolator::prepare(const ProcessSpec& spec) {
     }
     latency_ = hostHop_;
     latentViews_.assign(static_cast<std::size_t>(maxSources_), {});
-    channels_.assign(static_cast<std::size_t>(numChannels_), {});
+    channels_.clear();
+    channels_.resize(static_cast<std::size_t>(numChannels_));
     reset();
 }
 
