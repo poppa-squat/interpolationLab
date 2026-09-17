@@ -2,7 +2,9 @@ add_executable(interpolation_lab_tests
     AnalysisSettingsTests.cpp
     FadeInterpolatorTests.cpp
     InterpolatorCatalogTests.cpp
+    LatentMathTests.cpp
     OptimalTransportTests.cpp
+    RaveInterpolatorTests.cpp
     SpectralTransportTests.cpp
     WeightsTests.cpp)
 

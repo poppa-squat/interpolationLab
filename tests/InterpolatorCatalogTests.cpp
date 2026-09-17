@@ -2,14 +2,17 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-TEST_CASE("catalog lists fade first and spectral transport second") {
-    REQUIRE(interpolation_lab::InterpolatorCatalog::size() >= 2);
+TEST_CASE("catalog lists fade first, spectral transport second, rave third") {
+    REQUIRE(interpolation_lab::InterpolatorCatalog::size() >= 3);
     const auto& fade = interpolation_lab::InterpolatorCatalog::info(0);
     REQUIRE(fade.id == "fade");
     REQUIRE(fade.name == "Fade");
     const auto& spectral = interpolation_lab::InterpolatorCatalog::info(1);
     REQUIRE(spectral.id == "spectral_transport");
     REQUIRE(spectral.name == "Spectral Transport");
+    const auto& rave = interpolation_lab::InterpolatorCatalog::info(2);
+    REQUIRE(rave.id == "rave");
+    REQUIRE(rave.name == "RAVE Latent");
 }
 
 TEST_CASE("catalog create returns a prepared interpolator") {
@@ -22,6 +25,11 @@ TEST_CASE("catalog create returns a prepared interpolator") {
     REQUIRE(spectral != nullptr);
     spectral->prepare({44100.0, 64, 2, 2});
     REQUIRE(spectral->latencySamples() > 0);
+
+    auto rave = interpolation_lab::InterpolatorCatalog::create(2);
+    REQUIRE(rave != nullptr);
+    rave->prepare({44100.0, 64, 2, 2});
+    REQUIRE(rave->latencySamples() >= 0);
 }
 
 TEST_CASE("catalog clamps out-of-range indices") {
